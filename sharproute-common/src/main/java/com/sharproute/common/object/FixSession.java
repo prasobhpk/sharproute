@@ -18,6 +18,9 @@ public class FixSession implements Serializable {
 	@Column(name="FIX_SESSION_UID")
 	private Integer uid;
 	
+	@Column(name="BEGIN_STRING")
+	private String beginString;
+	
 	@Column(name="SENDER_COMP_ID")
 	private String senderCompId;
 	
@@ -29,6 +32,12 @@ public class FixSession implements Serializable {
 	}
 	public void setUid(Integer uid) {
 		this.uid = uid;
+	}
+	public String getBeginString() {
+		return beginString;
+	}
+	public void setBeginString(String beginString) {
+		this.beginString = beginString;
 	}
 	public String getSenderCompId() {
 		return senderCompId;
