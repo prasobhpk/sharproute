@@ -38,6 +38,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 import com.hazelcast.query.SqlPredicate;
 import com.sharproute.common.object.ConnectionType;
+import com.sharproute.common.object.FixEngine;
 import com.sharproute.common.object.FixSession;
 
 @Component
@@ -66,7 +67,8 @@ public class FixServer implements ApplicationContextAware, EntryListener<Integer
         server.start();
     }
     
-    public void initialize() throws ConfigError{
+    public void initialize() throws ConfigError {
+    	verifyServerStartupState();
     	initializeFixConnections();
     }
     
@@ -84,13 +86,21 @@ public class FixServer implements ApplicationContextAware, EntryListener<Integer
     	isRunning = false;
     }
     
+    private void verifyServerStartupState(){
+    	IMap<Integer, FixEngine> fixEngineMap = hazelcastInstance.getMap(FixEngine.class.getSimpleName());
+    	if (!fixEngineMap.containsKey(fixEngineUid)){
+    		throw new RuntimeException("FixEngine not found in map for " + fixEngineUid);
+    	}
+    }
+    
     private void initializeFixConnections() throws ConfigError {
     	IMap<Integer, FixSession> fixSessionMap = hazelcastInstance.getMap(FixSession.class.getSimpleName());
     	fixSessionMap.addEntryListener(this, true);
     	for (Map.Entry<Integer, FixSession> entry : fixSessionMap.entrySet(new SqlPredicate("fixEngine.uid = " + fixEngineUid))) {
     		FixSession fixSession = entry.getValue();
 			Connector connector = fixSessionManager.createConnector(fixSession);
-			connectorMap.put(connector.getSessions().get(0), connector);
+			SessionID sessionID = fixSessionManager.createSessionID(fixSession);
+			connectorMap.put(sessionID, connector);
 		} 
     }
     
