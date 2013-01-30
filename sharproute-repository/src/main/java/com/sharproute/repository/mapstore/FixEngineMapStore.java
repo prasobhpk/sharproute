@@ -8,10 +8,13 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Component;
+
 import com.hazelcast.core.MapStore;
 import com.sharproute.common.object.FixEngine;
 import com.sharproute.repository.FixEngineRepository;
 
+@Component
 public class FixEngineMapStore implements MapStore<Integer, FixEngine> {
 	
 	@Resource

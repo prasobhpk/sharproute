@@ -8,10 +8,13 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Component;
+
 import com.hazelcast.core.MapStore;
 import com.sharproute.common.object.FixSession;
 import com.sharproute.repository.FixSessionRepository;
 
+@Component
 public class FixSessionMapStore implements MapStore<Integer, FixSession> {
 	
 	@Resource

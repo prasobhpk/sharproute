@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sharproute.common.object.FixEngine;
 import com.sharproute.common.object.FixSession;
 import com.sharproute.repository.FixSessionRepository;
 
@@ -21,7 +22,12 @@ public class TestFixSessionRepository {
 
 	@Test
 	public void testCrud() {
+		FixEngine fixEngine = new FixEngine();
+		fixEngine.setUid(1);
+		fixEngine.setName("FIXENGINE1");
+		
 		FixSession fixSession = new FixSession();
+		fixSession.setFixEngine(fixEngine);
 		fixSession.setSenderCompId("TESTSENDER");
 		fixSession.setTargetCompId("TESTTARGET");
 		fixSessionRepository.save(fixSession);
