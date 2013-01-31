@@ -2,6 +2,16 @@
 
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring-sharproute-web.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
 	<servlet>
 		<servlet-name>IndexPriceServlet</servlet-name>
 		<servlet-class>com.sharproute.web.websocket.IndexPriceServlet</servlet-class>

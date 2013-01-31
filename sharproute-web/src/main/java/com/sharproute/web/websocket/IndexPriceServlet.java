@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jetty.websocket.WebSocket;
 import org.eclipse.jetty.websocket.WebSocketServlet;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
@@ -19,17 +21,20 @@ import com.hazelcast.core.IMap;
 @SuppressWarnings("serial")
 public class IndexPriceServlet extends WebSocketServlet {
 	
-	private static HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
+	private HazelcastInstance hazelcastInstance;
 	
 	@Override
 	public void init() throws ServletException {
 		super.init();
+		ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		hazelcastInstance = applicationContext.getBean("hazelcastInstance", HazelcastInstance.class);
 		Thread t = new Thread(new IndexPricePublisher("NGH12"));
 		t.start();
 	}
 	
 	@Override
 	public boolean checkOrigin(HttpServletRequest request, String origin) {
+		
 		return super.checkOrigin(request, origin);
 	}
 
