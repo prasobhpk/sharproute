@@ -11,15 +11,15 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
 	<servlet>
-		<servlet-name>IndexPriceServlet</servlet-name>
-		<servlet-class>com.sharproute.web.websocket.IndexPriceServlet</servlet-class>
+		<servlet-name>FixServerStatusServlet</servlet-name>
+		<servlet-class>com.sharproute.web.websocket.FixServerStatusServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>IndexPriceServlet</servlet-name>
-		<url-pattern>/indexprice/*</url-pattern>
+		<servlet-name>FixServerStatusServlet</servlet-name>
+		<url-pattern>/FixServerStatus/*</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

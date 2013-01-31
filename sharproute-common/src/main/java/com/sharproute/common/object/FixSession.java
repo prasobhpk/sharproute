@@ -23,8 +23,8 @@ public class FixSession implements Serializable {
 	private Integer uid;
 	
 	@ManyToOne(optional=false) 
-    @JoinColumn(name="FIX_ENGINE_UID", nullable=false, updatable=true)
-	private FixEngine fixEngine;
+    @JoinColumn(name="FIX_SERVER_UID", nullable=false, updatable=true)
+	private FixServer fixServer;
 	
 	@Column(name="CONNECTION_TYPE")
 	@Enumerated(EnumType.STRING)
@@ -51,11 +51,11 @@ public class FixSession implements Serializable {
 	public void setUid(Integer uid) {
 		this.uid = uid;
 	}
-	public FixEngine getFixEngine() {
-		return fixEngine;
+	public FixServer getFixServer() {
+		return fixServer;
 	}
-	public void setFixEngine(FixEngine fixEngine) {
-		this.fixEngine = fixEngine;
+	public void setFixServer(FixServer fixServer) {
+		this.fixServer = fixServer;
 	}
 	public ConnectionType getConnectionType() {
 		return connectionType;

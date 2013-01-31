@@ -6,14 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name="FIX_ENGINE")
-public class FixEngine extends AbstractCommonObject {
+@Entity(name="FIX_SERVER")
+public class FixServer extends AbstractCommonObject {
 	
 	private static final long serialVersionUID = 4861066097319265392L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="FIX_ENGINE_UID")
+	@Column(name="FIX_SERVER_UID")
 	private Integer uid;
 	
 	@Column(name="NAME")

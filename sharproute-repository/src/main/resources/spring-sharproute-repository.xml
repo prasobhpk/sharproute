@@ -55,8 +55,8 @@
 			<hz:properties>
     			<hz:property name="hazelcast.logging.type">log4j</hz:property>
     		</hz:properties>
-			<hz:map name="FixEngine">
-            	<hz:map-store enabled="true" implementation="fixEngineMapStore" write-delay-seconds="0"/>
+			<hz:map name="FixServer">
+            	<hz:map-store enabled="true" implementation="fixServerMapStore" write-delay-seconds="0"/>
     		</hz:map>
     		<hz:map name="FixSession">
             	<hz:map-store enabled="true" implementation="fixSessionMapStore" write-delay-seconds="0"/>

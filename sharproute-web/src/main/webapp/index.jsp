@@ -3,7 +3,7 @@
 <title>WebSocket Test</title>
 <script type="text/javascript">  
 	
-	var wsUri = "ws://localhost:8080/web/indexprice?symbol=NGH12"; 
+	var wsUri = "ws://localhost:8080/web/FixServerStatus"; 
 	var output;  
 	
 	function init() { 
@@ -48,6 +48,6 @@
 	}  
 	window.addEventListener("load", init, false); 
 </script>
-<h2>WebSocket Test</h2>
+<h2>Fix Servers</h2>
 <div id="output"></div>
 </html>

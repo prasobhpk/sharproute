@@ -14,45 +14,32 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-import quickfix.Acceptor;
-import quickfix.Application;
 import quickfix.ConfigError;
 import quickfix.Connector;
-import quickfix.DefaultMessageFactory;
-import quickfix.LogFactory;
-import quickfix.MemoryStoreFactory;
-import quickfix.MessageFactory;
-import quickfix.MessageStoreFactory;
 import quickfix.RuntimeError;
-import quickfix.ScreenLogFactory;
 import quickfix.SessionID;
-import quickfix.SessionSettings;
-import quickfix.ThreadedSocketAcceptor;
-import quickfix.field.BeginString;
-import quickfix.field.SenderCompID;
-import quickfix.field.TargetCompID;
 
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 import com.hazelcast.query.SqlPredicate;
-import com.sharproute.common.object.ConnectionType;
-import com.sharproute.common.object.FixEngine;
+import com.sharproute.common.object.FixServer;
 import com.sharproute.common.object.FixSession;
+import com.sharproute.fix.management.FixEngineStatusUpdateTask;
 
 @Component
-public class FixServer implements ApplicationContextAware, EntryListener<Integer, FixSession> { 
+public class FixServerInstance implements ApplicationContextAware, EntryListener<Integer, FixSession> { 
 	
-	private static Logger logger = LoggerFactory.getLogger(FixServer.class);
+	private static Logger logger = LoggerFactory.getLogger(FixServerInstance.class);
 	
 	@Resource
 	private FixSessionManager fixSessionManager;
 	
 	private ApplicationContext applicationContext;
 	
-	@Value("${fixEngine.uid}")
-	private Integer fixEngineUid;
+	@Value("${fixServer.uid}")
+	private Integer fixServerUid;
 	
 	@Resource
 	private HazelcastInstance hazelcastInstance;
@@ -61,10 +48,16 @@ public class FixServer implements ApplicationContextAware, EntryListener<Integer
 	private Map<SessionID, Connector> connectorMap = new HashMap<>();
 	
     public static void main(String[] args) throws ConfigError {
-    	ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-sharproute-fix.xml");
-        FixServer server = applicationContext.getBean("fixServer", FixServer.class);
-        server.initialize();
-        server.start();
+    	try {
+			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-sharproute-fix.xml");
+			FixServerInstance server = applicationContext.getBean("fixServerInstance", FixServerInstance.class);
+			server.initialize();
+			server.start();
+		} catch (Exception e) {
+			logger.error("Fatal Exception has occurred. Unable to start.");
+			logger.error(e.getMessage());
+			System.exit(-1);
+		}
     }
     
     public void initialize() throws ConfigError {
@@ -87,16 +80,16 @@ public class FixServer implements ApplicationContextAware, EntryListener<Integer
     }
     
     private void verifyServerStartupState(){
-    	IMap<Integer, FixEngine> fixEngineMap = hazelcastInstance.getMap(FixEngine.class.getSimpleName());
-    	if (!fixEngineMap.containsKey(fixEngineUid)){
-    		throw new RuntimeException("FixEngine not found in map for " + fixEngineUid);
+    	IMap<Integer, FixServer> fixServerMap = hazelcastInstance.getMap(FixServer.class.getSimpleName());
+    	if (!fixServerMap.containsKey(fixServerUid)){
+    		throw new RuntimeException("FixEngine not found in map for " + fixServerUid);
     	}
     }
     
     private void initializeFixConnections() throws ConfigError {
     	IMap<Integer, FixSession> fixSessionMap = hazelcastInstance.getMap(FixSession.class.getSimpleName());
     	fixSessionMap.addEntryListener(this, true);
-    	for (Map.Entry<Integer, FixSession> entry : fixSessionMap.entrySet(new SqlPredicate("fixEngine.uid = " + fixEngineUid))) {
+    	for (Map.Entry<Integer, FixSession> entry : fixSessionMap.entrySet(new SqlPredicate("fixServer.uid = " + fixServerUid))) {
     		FixSession fixSession = entry.getValue();
 			Connector connector = fixSessionManager.createConnector(fixSession);
 			SessionID sessionID = fixSessionManager.createSessionID(fixSession);

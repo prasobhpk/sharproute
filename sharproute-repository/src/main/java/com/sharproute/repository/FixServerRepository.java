@@ -2,9 +2,9 @@ package com.sharproute.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.sharproute.common.object.FixEngine;
+import com.sharproute.common.object.FixServer;
 import com.sharproute.common.object.FixSession;
 
-public interface FixEngineRepository extends CrudRepository<FixEngine, Integer> {
+public interface FixServerRepository extends CrudRepository<FixServer, Integer> {
 
 }
