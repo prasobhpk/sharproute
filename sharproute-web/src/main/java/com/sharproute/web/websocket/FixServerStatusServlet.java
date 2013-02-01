@@ -28,6 +28,7 @@ public class FixServerStatusServlet extends WebSocketServlet {
 		super.init();
 		ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 		hazelcastInstance = applicationContext.getBean("hazelcastInstance", HazelcastInstance.class);
+		hazelcastInstance.getMap(FixServer.class.getSimpleName()).containsKey(3);
 	}
 
 	@Override

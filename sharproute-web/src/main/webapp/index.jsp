@@ -50,4 +50,5 @@
 </script>
 <h2>Fix Servers</h2>
 <div id="output"></div>
+<a href="dashboard.jsp">Dashboard</a>
 </html>
