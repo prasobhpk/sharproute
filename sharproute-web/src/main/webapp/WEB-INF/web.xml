@@ -13,13 +13,17 @@
 	</listener>
 	
 	<servlet>
-		<servlet-name>FixServerStatusServlet</servlet-name>
-		<servlet-class>com.sharproute.web.websocket.FixServerStatusServlet</servlet-class>
+		<servlet-name>MapListenerWebSocketServlet-FixServer</servlet-name>
+		<servlet-class>com.sharproute.web.websocket.MapListenerWebSocketServlet</servlet-class>
+		<init-param>
+			<param-name>mapName</param-name>
+			<param-value>FixServer</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>FixServerStatusServlet</servlet-name>
-		<url-pattern>/FixServerStatus/*</url-pattern>
+		<servlet-name>MapListenerWebSocketServlet-FixServer</servlet-name>
+		<url-pattern>/MapListenerWebSocketServlet/FixServer</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
@@ -30,4 +34,5 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
 </web-app>
