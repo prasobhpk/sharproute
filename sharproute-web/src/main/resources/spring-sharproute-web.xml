@@ -13,7 +13,5 @@
 	<hz:client id="hazelcastInstance" group-name="${hazelcast.cluster.group.name}" group-password="${hazelcast.cluster.group.password}">
 	    <hz:member>${hazelcast.cluster.member.list}</hz:member>
 	</hz:client>
-	
-	<hz:map id="fixEngineMap" instance-ref="hazelcastInstance" name="fixEngineMap" />
-	
+
 </beans>

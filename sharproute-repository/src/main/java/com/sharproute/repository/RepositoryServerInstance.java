@@ -1,6 +1,7 @@
 package com.sharproute.repository;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,23 +9,18 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
 
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IMap;
-import com.hazelcast.core.Instance;
-import com.sharproute.common.object.FixServer;
-import com.sharproute.common.object.FixSession;
 
-@Component
+@Named
 public class RepositoryServerInstance implements ApplicationContextAware { 
 	
 	private static Logger logger = LoggerFactory.getLogger(RepositoryServerInstance.class);
 	
 	private ApplicationContext applicationContext;
 	
-	@Resource
+	@Inject
 	private HazelcastInstance hazelcastInstance;
 	
     public static void main(String[] args) {
@@ -40,14 +36,15 @@ public class RepositoryServerInstance implements ApplicationContextAware {
     }
     
     public void start(){
+    	applicationContext.toString();
     	for (MapConfig mapConfig : hazelcastInstance.getConfig().getMapConfigs().values()) {
 			hazelcastInstance.getMap(mapConfig.getName());
 		} 
-    	logger.info(RepositoryServerInstance.class.getSimpleName() +" Start Complete");
+    	logger.info(this.getClass().getSimpleName() +" Start Complete");
     }
     
     public void stop(){
-    	logger.info("RepositoryServerInstance Stop Complete");
+    	logger.info(this.getClass().getSimpleName() + " Stop Complete");
     }
 
 	@Override

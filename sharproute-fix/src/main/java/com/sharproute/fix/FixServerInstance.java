@@ -3,7 +3,8 @@ package com.sharproute.fix;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
 
 import quickfix.ConfigError;
 import quickfix.Connector;
@@ -26,14 +26,13 @@ import com.hazelcast.core.IMap;
 import com.hazelcast.query.SqlPredicate;
 import com.sharproute.common.object.FixServer;
 import com.sharproute.common.object.FixSession;
-import com.sharproute.fix.management.FixEngineStatusUpdateTask;
 
-@Component
+@Named
 public class FixServerInstance implements ApplicationContextAware, EntryListener<Integer, FixSession> { 
 	
 	private static Logger logger = LoggerFactory.getLogger(FixServerInstance.class);
 	
-	@Resource
+	@Inject
 	private FixSessionManager fixSessionManager;
 	
 	private ApplicationContext applicationContext;
@@ -41,10 +40,10 @@ public class FixServerInstance implements ApplicationContextAware, EntryListener
 	@Value("${fixServer.uid}")
 	private Integer fixServerUid;
 	
-	@Resource
+	@Inject
 	private HazelcastInstance hazelcastInstance;
 	
-	private boolean isRunning;
+	private boolean running;
 	private Map<SessionID, Connector> connectorMap = new HashMap<>();
 	
     public static void main(String[] args) throws ConfigError {
@@ -61,6 +60,7 @@ public class FixServerInstance implements ApplicationContextAware, EntryListener
     }
     
     public void initialize() throws ConfigError {
+    	applicationContext.toString();
     	verifyServerStartupState();
     	initializeFixConnections();
     }
@@ -69,15 +69,19 @@ public class FixServerInstance implements ApplicationContextAware, EntryListener
     	for (Connector connector : connectorMap.values()) {
 			connector.start();
 		}
-    	isRunning = true;
+    	running = true;
     }
     
     public void stop(){
     	for (Connector connector : connectorMap.values()) {
 			connector.stop();
 		}
-    	isRunning = false;
+    	running = false;
     }
+    
+    public boolean isRunning() {
+		return running;
+	}
     
     private void verifyServerStartupState(){
     	IMap<Integer, FixServer> fixServerMap = hazelcastInstance.getMap(FixServer.class.getSimpleName());

@@ -1,9 +1,10 @@
 package com.sharproute.fix;
 
+import javax.inject.Named;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import quickfix.Application;
 import quickfix.ConfigError;
@@ -25,7 +26,7 @@ import quickfix.field.TargetCompID;
 import com.sharproute.common.object.ConnectionType;
 import com.sharproute.common.object.FixSession;
 
-@Component
+@Named
 public class FixSessionManager implements ApplicationContextAware {
 	
 	private ApplicationContext applicationContext;

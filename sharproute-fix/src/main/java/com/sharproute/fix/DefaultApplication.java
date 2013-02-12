@@ -1,6 +1,7 @@
 package com.sharproute.fix;
 
 import javax.annotation.Resource;
+import javax.inject.Named;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.MessageListener;
@@ -8,7 +9,6 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import quickfix.Application;
 import quickfix.DoNotSend;
@@ -20,7 +20,7 @@ import quickfix.RejectLogon;
 import quickfix.SessionID;
 import quickfix.UnsupportedMessageType;
 
-@Component
+@Named
 @Scope("prototype")
 public class DefaultApplication implements Application, MessageListener {
 	

@@ -6,18 +6,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.hazelcast.core.MapStore;
 import com.sharproute.common.object.FixServer;
 import com.sharproute.repository.FixServerRepository;
 
-@Component
+@Named
 public class FixServerMapStore implements MapStore<Integer, FixServer> {
 	
-	@Resource
+	@Inject
 	private FixServerRepository fixServerRepository;
 
 	@Override
