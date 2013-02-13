@@ -31,15 +31,14 @@ public class MapListenerWebSocketServlet extends WebSocketServlet {
     private String mapName;
     private HazelcastInstance hazelcastInstance;
     private Gson gson = new Gson();
-    
-    public MapListenerWebSocketServlet() {
-		this.mapName = getServletConfig().getInitParameter("mapName");
-		WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-		this.hazelcastInstance = applicationContext.getBean("hazelcastInstance", HazelcastInstance.class);
-	}
 
     @Override
     protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
+    	if (this.mapName == null){
+    		WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+    		this.hazelcastInstance = applicationContext.getBean("hazelcastInstance", HazelcastInstance.class);
+    		this.mapName = getServletConfig().getInitParameter("mapName");
+    	}
         return new ActionMessageInbound();
     }
     
