@@ -30,7 +30,7 @@ public class RepositoryServerInstance implements ApplicationContextAware {
 			server.start();
 		} catch (Exception e) {
 			logger.error("Fatal Exception has occurred. Unable to start.");
-			logger.error(e.getStackTrace().toString());
+			logger.error(e.getMessage(), e);
 			System.exit(-1);
 		}
     }
