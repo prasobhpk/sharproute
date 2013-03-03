@@ -28,10 +28,14 @@
     <param-name>javax.faces.PROJECT_STAGE</param-name>
     <param-value>Development</param-value>
   </context-param>
+  <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
  
   <!-- Welcome page -->
   <welcome-file-list>
-    <welcome-file>default.jsf</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
  
   <!-- JSF Mapping -->
@@ -42,11 +46,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>facesServlet</servlet-name>
-    <url-pattern>*.jsf</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>facesServlet</servlet-name>
-    <url-pattern>*.xhtml</url-pattern>
+    <url-pattern>*.html</url-pattern>
   </servlet-mapping>
   
   	<servlet>

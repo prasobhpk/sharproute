@@ -102,6 +102,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
 					<update>true</update>
+					<path>/dashboard</path>
 				</configuration>
 			</plugin>
 		</plugins>

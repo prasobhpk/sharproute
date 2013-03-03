@@ -28,12 +28,6 @@
 			<artifactId>org.apache.servicemix.bundles.quickfix</artifactId>
 			<version>1.5.2_1</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-core</artifactId>
-			<version>1.1.7</version>
-		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
