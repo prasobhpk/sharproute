@@ -45,6 +45,12 @@ public class FixSession implements Serializable {
 	@Column(name="PORT")
 	private int port;
 	
+	@Column(name="LOGIN")
+	private String login;
+	
+	@Column(name="PASSWORD")
+	private String password;
+	
 	public Integer getUid() {
 		return uid;
 	}
@@ -92,6 +98,18 @@ public class FixSession implements Serializable {
 	}
 	public void setPort(int port) {
 		this.port = port;
+	}
+	public String getLogin() {
+		return login;
+	}
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
